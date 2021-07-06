@@ -1,5 +1,5 @@
 import ast
-from typing import Union
+from typing import Union, Dict
 
 
 class DeAlias(ast.NodeTransformer):
@@ -9,7 +9,7 @@ class DeAlias(ast.NodeTransformer):
     """
 
     def __init__(self) -> None:
-        self._alias_table: dict[str, str] = {}
+        self._alias_table: Dict[str, str] = {}
         super().__init__()
 
     def visit_Import(self, node: ast.Import) -> ast.Import:

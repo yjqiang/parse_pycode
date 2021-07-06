@@ -1,11 +1,12 @@
 import ast
+from typing import Dict, List
 
-from de_alias_code import de_alias
+from extract_api.de_alias_code import de_alias
 
 
-def create_parents(root: ast.AST) -> dict[ast.AST, ast.AST]:
+def create_parents(root: ast.AST) -> Dict[ast.AST, ast.AST]:
     """
-    原来的树只有父节点指向自节点，现在提供一个反查接口
+    原来的树只有父节点指向子节点，现在提供一个反查接口
     :param root:
     :return:
     """
@@ -16,7 +17,7 @@ def create_parents(root: ast.AST) -> dict[ast.AST, ast.AST]:
     return parents
 
 
-def find_grandparent(node, parents: dict[ast.AST, ast.AST]) -> list[ast.AST]:
+def find_grandparent(node, parents: Dict[ast.AST, ast.AST]) -> List[ast.Attribute]:
     """
     找到所有的父节点
     :param node:
@@ -33,11 +34,7 @@ def find_grandparent(node, parents: dict[ast.AST, ast.AST]) -> list[ast.AST]:
         result.append(parent)
 
 
-def main():
-    path = 'code.py'
-    with open(path, encoding='utf-8') as f:
-        source = f.read()
-
+def check(source: str) -> None:
     source = de_alias(source)
     list_lines = source.split('\n')
     print('\n'.join([f'{i:<5}:    {line}' for i, line in enumerate(list_lines, start=1)]))
@@ -46,7 +43,7 @@ def main():
     # print(ast.dump(tree, indent=4))
     parents = create_parents(tree)
     for node in ast.walk(tree):  # type: ast.AST
-        if isinstance(node, ast.Name) and node.id == 'torch':
+        if isinstance(node, ast.Name) and node.id == 'torch':  # 查询嵌套 torch.xx.xx
             list_nodes = find_grandparent(node, parents)
 
             result = []
@@ -55,7 +52,3 @@ def main():
                 result.append(cur_node.id if isinstance(cur_node, ast.Name) else cur_node.attr)
             print(node.lineno, '.'.join(result))
             # print(ast.dump(node, indent=4))
-
-
-if __name__ == "__main__":
-    main()
