@@ -1,7 +1,7 @@
 import ast
 from typing import Dict, List
 
-from extract_api.de_alias_code import de_alias
+from extract_used_api.de_alias_code import de_alias
 
 
 def create_parents(root: ast.AST) -> Dict[ast.AST, ast.AST]:

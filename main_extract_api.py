@@ -1,4 +1,4 @@
-from extract_api.main import check
+from extract_used_api.main import check
 
 if __name__ == '__main__':
     path = 'code.py'
