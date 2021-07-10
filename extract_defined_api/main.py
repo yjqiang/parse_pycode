@@ -94,6 +94,7 @@ def search_functions_and_classes(the_object) -> Tuple[list, list, list]:
 
 def locate(the_object_name: str):
     """
+    比较标准的名字（不瞎鸡儿乱写尝试）
     根据名字 load 函数、类等
     :return:
     """
@@ -132,17 +133,25 @@ def get_submodules(the_object) -> list[tuple[str, Any]]:
     return result
 
 
-def fullname(the_class):
+def fullname(something):
     """
     https://stackoverflow.com/questions/2020014/get-fully-qualified-class-name-of-an-object-in-python
     https://stackoverflow.com/questions/58108488/what-is-qualname-in-python
-    :param the_class:
+    :param something:
     :return:
     """
-    module = the_class.__module__
+    # https://docs.python.org/3.6/reference/import.html#__path__
+    # If the module is a package (either regular or namespace), the module the_object’s __path__ attribute must be set.
+    # Non-package modules should not have a __path__ attribute.
+    if hasattr(something, '__path__'):
+        # https://stackoverflow.com/questions/11705055/get-full-package-module-name
+        # __name__ always contains the full name of the module.
+        return something.__name__
+
+    module = something.__module__
     if module == 'builtins':
-        return the_class.__qualname__  # avoid outputs like 'builtins.str'
-    return f'{module}.{the_class.__qualname__}'
+        return something.__qualname__  # avoid outputs like 'builtins.str'
+    return f'{module}.{something.__qualname__}'
 
 
 def main():

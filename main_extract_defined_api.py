@@ -1,6 +1,7 @@
 import torch
 
-from extract_defined_api.main import get_submodules, locate, search_functions_and_classes, fullname
+import utils
+from extract_defined_api.main import get_submodules, locate, search_functions_and_classes
 
 if __name__ == '__main__':
     # 爬取所有子模块
@@ -32,6 +33,7 @@ if __name__ == '__main__':
 
                 # TODO: del
                 if sub_module is None:
+                    print('??????', submodule_name, parent_module, parent_module.__name__)
                     continue
 
                 if sub_module.__name__.startswith('torch'):
@@ -59,50 +61,20 @@ if __name__ == '__main__':
     result0 = set()
     for name, value in funcs:
         print(f'funcs {name=}, {value}')
+        # result0.add(fullname(value))
         result0.add(f'{value.__module__}.{name}')
 
     for name, value in classes:
         print(f'classes {name=}, {value}')
+        # result0.add(fullname(value))
         result0.add(f'{value.__module__}.{name}')
 
     for name, value in datas:
         print(f'datas {name=}, {value}')
         result0.add(f'{value}.{name}')
 
-
-    import json
-
-    with open('data.json', encoding='utf-8') as f:
-        orig = json.load(f)['result']
-        result = set()
-        for key, value in orig.items():
-            if value > 0 and \
-                    (not key.startswith('torch.legacy')):  # https://github.com/akmtn/pytorch-siggraph2017-inpainting/issues/2
-                result.add(key)
-
-        # 有的 api 可能已经失效了
-        result1 = set()
-        for module_name in result:
-            try:
-                print(module_name)
-                module = locate(module_name)
-                name = f'{module.__module__}.{module_name.split(".")[-1]}'
-                # eg: torch.multiprocessing.Process.__init__；torch.jit._state._jit_caching_layer.clear
-                # 有的 api 兜兜转转是别人的模块
-                if name.startswith('torch'):
-                    result1.add(name)
-            except Exception as e:
-                print(f"!!!!!!4 {e} {module_name=}")
-
-            # TODO: del
-            if module is None:
-                continue
-
-    print(result1 - result0)
-    print(list(result1)[:5])
-    print(list(result0)[:5])
-    print('原始的使用 API', len(result))
     print('爬取的定义 API', len(result0))
-    print('去除无效等 API', len(result1))
-    print(len(result0 - result1))
-    print(len(result1 - result0))
+    utils.save_json('data/main_extract_defined_api1.json',
+                    {
+                        'result': list(result0)
+                    })
