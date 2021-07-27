@@ -129,4 +129,4 @@ dmypy.json
 .idea
 
 conf/conf.toml
-repos/
+data/
