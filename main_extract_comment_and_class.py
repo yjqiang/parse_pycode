@@ -60,7 +60,7 @@ def main():
 
     data_id = 0
     cur_datas = []  # [{data_id: _, zip_name: _, username: _, repo_name: _, comment: [_, ...], code: [_, ...]}, ...]  # 按照换行进行切分 comment 和 code
-    for zip_name, path in utils.iterate_file('data/download_repos/result'):
+    for zip_name, path in utils.iterate_zip_file('data/download_repos/result'):
         # if zip_name != 'code.zip':
         #     continue
         # 仅处理 python 文件

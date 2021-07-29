@@ -27,7 +27,7 @@ def get_all_files(path: str) -> list[str]:
     return result
 
 
-def iterate_file(path: str) -> Iterator[Tuple[str, str]]:
+def iterate_zip_file(path: str) -> Iterator[Tuple[str, str]]:
     """
     解析 path 下面的所有 zip 文件（不会递归），每个文件进行解压后，把里面的文件挨个儿 yield 出来
     :param path:
