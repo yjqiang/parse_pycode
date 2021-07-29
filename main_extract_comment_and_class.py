@@ -105,6 +105,10 @@ def main():
 
                     data_id += 1
 
+    # 还有剩余的数据
+    if cur_datas:
+        utils.save_json(f'data/extract_comment_and_class/result0/data{int(data_id / max_len_per_file)}.json', cur_datas)
+
     print(f'SUM {data_id}')
 
 
