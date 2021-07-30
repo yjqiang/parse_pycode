@@ -49,7 +49,7 @@ def main():
 
     df = pd.DataFrame(dict_code_line_count.items(), columns=['Line', 'Count'])
     seaborn.barplot(ax=axes[1], x='Line', y='Count', data=df)
-    axes[0].set_title('CODE STATISTICS')
+    axes[1].set_title('CODE STATISTICS')
 
     plt.show()
 
