@@ -94,8 +94,11 @@ def main():
                     cur_datas.append({
                         'data_id': data_id,
                         'zip_name': zip_name,
+                        'path': path,
+
                         'username': dict_results[zip_name][0],
                         'repo_name': dict_results[zip_name][1],
+
                         'comment': comment.split('\n'),
                         'code': code.split('\n')
                     })
