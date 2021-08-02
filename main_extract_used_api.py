@@ -72,7 +72,7 @@ def main():
                     statistics[usage] = statistics.get(usage, 0) + 1
 
         print(new_count, orig_count, statistics)
-    utils.save_json('data.json', {
+    utils.save_json('data/extract_comment_and_class/used_api.json', {
         'statistics': statistics,
     })
 
