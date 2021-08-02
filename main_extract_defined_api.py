@@ -131,7 +131,7 @@ if __name__ == '__main__':
     print('-' * 100)
     ##########################################################################################################
     # 过滤
-    orig = utils.open_json('data.json')['result']
+    orig = utils.open_json('data/extract_comment_and_class/used_api.json')['statistics']
 
     str_defined_api_result = set([api.path for api in api_defined_api_result])
     print(len(str_defined_api_result), len(api_defined_api_result))
@@ -200,4 +200,4 @@ if __name__ == '__main__':
         name = '.'.join(using_api.split('.')[:2])
         tmp[name] = tmp.get(name, 0) + 1
 
-    print({key: value for key, value in tmp.items() if value > 100})
+    print({key: value for key, value in tmp.items() if value > 5})
