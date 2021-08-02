@@ -61,3 +61,17 @@ def iterate_zip_file(path: str) -> Iterator[Tuple[str, str]]:
             yield zip_name, file_path
 
     shutil.rmtree(tmp_path)
+
+
+def iterate_json_file(path: str) -> Iterator[Tuple[str, str]]:
+    """
+    解析 path 下面的所有 json 文件（不会递归）
+    :param path:
+    :return:
+    """
+
+    json_files_paths = [(f, os.path.join(path, f)) for f in os.listdir(path) if os.path.isfile(os.path.join(path, f)) and f.endswith('.json')]
+    print(len(json_files_paths))
+    for i, (file_name, json_file_path) in enumerate(json_files_paths):
+        print(f'HANDLING {i}th file: {json_file_path}')
+        yield file_name, json_file_path
